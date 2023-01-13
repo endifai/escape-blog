@@ -1,0 +1,7 @@
+export { Footer } from './footer'
+export { Header } from './header'
+export { Topics } from './topics'
+export { PostsSection } from './posts-section'
+export { User } from './user'
+export { Title } from './title'
+export { NavBar } from './nav-bar'
