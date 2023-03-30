@@ -1,17 +1,23 @@
 import Image from 'next/image'
 
+import { imageUrlFor } from 'src/core/client'
+import type { Post } from 'src/types'
+
 import { User } from '../user'
 import { Container } from './container'
-import { recentPosts } from './data'
 
-export const RecentPosts = () => (
+interface Props {
+  posts: Post[]
+}
+
+export const RecentPosts = ({ posts }: Props) => (
   <Container id="latest" header="Most Recent">
     <div className=" grid grid-cols-1 gap-5 p-2 md:grid-cols-2 lg:grid-cols-3">
-      {recentPosts.map((post) => (
+      {posts.map((post) => (
         <article key={post.title} className="w-full bg-white text-secondary">
           <div className="relative aspect-[16/9] w-full">
             <Image
-              src={post.image}
+              src={imageUrlFor(post.image)}
               className="object-cover object-center"
               alt={post.title}
               draggable={false}
@@ -27,9 +33,12 @@ export const RecentPosts = () => (
             </div>
 
             <div className="flex items-center justify-between bg-[#FCFCFC] p-3.5 text-xs text-[#999999]">
-              <User name={post.author.name} img={post.author.img} />
+              <User
+                name={post.author.name}
+                img={imageUrlFor(post.author.avatar)}
+              />
 
-              <p>{post.createdAt}</p>
+              <p>{new Date(post._createdAt).toLocaleDateString()}</p>
             </div>
           </div>
         </article>

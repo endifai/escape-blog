@@ -1,8 +1,12 @@
 import { Lora, Oxygen } from '@next/font/google'
+import { NextPage } from 'next'
 import Head from 'next/head'
 
+import { getFeaturedPosts, getRecentPosts } from 'src/api/posts'
+import { getTopics } from 'src/api/topics'
 import { Footer, Header, Topics } from 'src/components'
 import { PostsSection } from 'src/components/posts-section'
+import { Post, Topic } from 'src/types'
 
 const oxygen = Oxygen({
   weight: '400',
@@ -11,7 +15,13 @@ const oxygen = Oxygen({
 })
 const lora = Lora({ subsets: ['latin'], variable: '--font-lora' })
 
-const HomePage = () => (
+type Page = NextPage<{
+  topics: Topic[]
+  featuredPosts: Post[]
+  recentPosts: Post[]
+}>
+
+const HomePage: Page = ({ topics, featuredPosts, recentPosts }) => (
   <>
     <Head>
       <title>Escape</title>
@@ -20,12 +30,28 @@ const HomePage = () => (
     <main className={`${oxygen.variable} ${lora.variable}`}>
       <Header />
 
-      <Topics />
-      <PostsSection />
+      <Topics topics={topics} />
+      <PostsSection featuredPosts={featuredPosts} recentPosts={recentPosts} />
 
       <Footer />
     </main>
   </>
 )
+
+export const getServerSideProps = async () => {
+  const [recentPosts, featuredPosts, topics] = await Promise.all([
+    getRecentPosts(),
+    getFeaturedPosts(),
+    getTopics(),
+  ])
+
+  return {
+    props: {
+      recentPosts,
+      featuredPosts,
+      topics,
+    },
+  }
+}
 
 export default HomePage

@@ -1,19 +1,16 @@
-const topics = [
-  'Nature',
-  'Photography',
-  'Relaxation',
-  'Vacation',
-  'Travel',
-  'Adventure',
-]
+import type { Topic } from 'src/types'
 
-export const Topics = () => (
+interface Props {
+  topics: Topic[]
+}
+
+export const Topics = ({ topics }: Props) => (
   <div className="section-inner flex justify-between gap-5 overflow-auto py-3 ">
-    {topics.map((topic) => (
+    {topics.map(({ title }) => (
       <div
-        key={topic}
+        key={title}
         className="py-3 px-6 font-lora text-sm text-[#768088] transition-opacity hover:cursor-pointer hover:opacity-50">
-        {topic}
+        {title}
       </div>
     ))}
   </div>

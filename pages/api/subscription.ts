@@ -7,7 +7,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (method === 'POST') {
     const { email } = body
 
-    await fetch('http://localhost:4000/subscribe', {
+    await fetch(process.env.API_URL + '/subscribe', {
       method: 'POST',
       body: JSON.stringify({ email }),
       headers: {
