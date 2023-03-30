@@ -9,12 +9,19 @@ export const FeedbackForm = () => {
     async (event) => {
       event.preventDefault()
 
-      const formData = new FormData(event.target as HTMLFormElement)
+      if (!(event.target instanceof HTMLFormElement)) {
+        return
+      }
+
+      const formData = new FormData(event.target)
       const { email } = Object.fromEntries(formData) as { email: string }
 
       try {
         const { ok } = await subscribeToEmail({ email })
-      } catch {}
+      } catch {
+      } finally {
+        event.target.reset()
+      }
     },
     [],
   )
