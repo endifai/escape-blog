@@ -5,6 +5,7 @@ import type { Post } from 'src/types'
 
 import { User } from '../user'
 import { Container } from './container'
+import { formatDate } from './format-date'
 
 interface Props {
   posts: Post[]
@@ -38,7 +39,7 @@ export const RecentPosts = ({ posts }: Props) => (
                 img={imageUrlFor(post.author.avatar)}
               />
 
-              <p>{new Date(post._createdAt).toLocaleDateString()}</p>
+              <p>{formatDate(new Date(post._createdAt))}</p>
             </div>
           </div>
         </article>
